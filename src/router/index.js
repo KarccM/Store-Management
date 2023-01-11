@@ -1,95 +1,87 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import Login from "../views/LoginView.vue";
-import Register from "../views/RegisterView.vue";
-
+import { useAuth } from "../Auth/useAuth";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      component: HomeView,
+      name: "Home",
+      component: import("../views/HomeView.vue"),
     },
     {
       path: "/login",
-      component: Login,
+      name: "Login",
+      component: import("../views/Auth/LoginView.vue"),
     },
     {
       path: "/register",
-      component: Register,
+      name: "Register",
+      component: import("../views/Auth/RegisterView.vue"),
     },
     {
-      path: "/items",
-      children:[
+      path: "/item",
+      children: [
         {
-          path:"",
-          component:import('../views/Items/index.vue')
+          path: "",
+          name: "item",
+          component: import("../views/Item/index.vue"),
         },
         {
-          path:':id',
-          component:import('../views/Items/Edit.vue')
+          path: ":id",
+          component: import("../views/Item/Edit.vue"),
         },
         {
-          path:'add',
-          component:import('../views/Items/Add.vue')
-        }
-      ]
+          path: "add",
+          component: import("../views/Item/Add.vue"),
+        },
+      ],
     },
     {
       path: "/orders",
-      children:[
+      children: [
         {
-          path:"",
-          component:import('../views/Orders/index.vue')
+          path: "",
+          component: import("../views/Orders/index.vue"),
         },
         {
-          path:':id',
-          component:import('../views/Orders/Edit.vue')
+          path: ":id",
+          component: import("../views/Orders/Edit/index.vue"),
         },
         {
-          path:'add',
-          component:import('../views/Orders/Add.vue')
-        }
-      ]
+          path: "add",
+          component: import("../views/Orders/Add/index.vue"),
+        },
+      ],
     },
+    {
+      path: "/test",
+      component: import("../views/Test.vue"),
+    },
+
     {
       path: "/payments",
-      children:[
+      children: [
         {
-          path:"",
-          component:import('../views/Payments/index.vue')
+          path: "",
+          component: import("../views/Payment/index.vue"),
         },
-        {
-          path:':id',
-          component:import('../views/Payments/Edit.vue')
-        },
-        {
-          path:'add',
-          component:import('../views/Payments/Add.vue')
-        }
-      ]
+      ],
     },
-    {
-      path: "/invoices",
-      children:[
-        {
-          path:"",
-          component:import('../views/Invoices/index.vue')
-        },
-        {
-          path:':id',
-          component:import('../views/Invoices/Edit.vue')
-        },
-        {
-          path:'add',
-          component:import('../views/Invoices/Add.vue')
-        }
-      ]
-    },
-    
-    
   ],
-  // linkActiveClass:'activeNav'
+});
+
+router.beforeEach((to, from, next) => {
+  let auth = useAuth();
+  if ((to.path === "/login" || to.path === "/register") && auth?.loggedIn)
+    next({ name: "Home" });
+
+  if ((to.path === "/login" || to.path === "/register") && !auth?.loggedIn)
+    next();
+
+  if (!auth?.loggedIn) next({ name: "Login" }); //unAuth Go to Login
+  else next();
+
+  next();
 });
 
 export default router;

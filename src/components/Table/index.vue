@@ -9,13 +9,21 @@ defineProps({
 </script>
 
 <template>
-  <table class="mx-auto w-full text-center">
-    <tr class="bg-blue-600 text-white border">
-      <th v-for="column in columns">{{ column.name }}</th>
-    </tr>
-    <tr class="bg-gray-100 border-b py-1" v-for="row in data">
-      <td v-for="filed in row">{{ filed }}</td>
-      <td><ActionsList :row="row" :onDelete="onDelete" :navTo="navTo" /></td>
-    </tr>
-  </table>
+  <div class="w-full p-6">
+    <table class="w-full text-center text-main-fourth">
+      <tr class="bg-main-third text-main-primary">
+        <th class="py-4" v-for="column in columns">{{ column.name }}</th>
+      </tr>
+      <tr
+        class="bg-main-primary border-b border-main-fifth"
+        v-for="row in data"
+      >
+        <td class="py-4" v-for="filed in row">{{ filed }}</td>
+        <td class="py-4">
+          <ActionsList :row="row" :onDelete="onDelete" :navTo="navTo" />
+        </td>
+      </tr>
+      <slot />
+    </table>
+  </div>
 </template>

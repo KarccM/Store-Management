@@ -1,56 +1,16 @@
 <script setup>
 import { RouterLink } from "vue-router";
-const routes = [
-  {
-    to: "/",
-    label: "Home",
-  },
-  {
-    to: "/orders",
-    label: "Orders",
-  },
-  {
-    to: "/items",
-    label: "Items",
-  },
-];
-
-const authRoutes = [
-  {
-    to: "/login",
-    label: "Login",
-  },
-  {
-    to: "/register",
-    label: "Register",
-  },
-];
 </script>
 <template>
-  <div
-    class="flex flex-col justify-between w-full gap-4 absolute bg-white top-0"
-  >
-    <div class="flex justify-between py-6 text-xl border-b text-blue-600 px-10">
-      <RouterLink to="/"> Store </RouterLink>
-      <div class="flex gap-4">
-        <span v-for="{ to, label } in authRoutes">
-          <RouterLink :to="to">
-            {{ label }}
-          </RouterLink>
-        </span>
-      </div>
-    </div>
-    <div class="flex gap-x-10 text-xl border-b text-gray-600 px-10 py-1 pb-8">
-      <span v-for="{ to, label } in routes" class="cursor-pointer">
-        <RouterLink
-          :to="to"
-          active-class="text-blue-600 border-b border-blue-600 py-6"
-        >
-          <label>
-            {{ label }}
-          </label>
-        </RouterLink>
-      </span>
-    </div>
+  <div class="w-full bg-main-primary flex justify-between px-10 py-2">
+    <h1 class="text-2xl text-main-third">
+      Store <span class="text-main-fifth">Management</span>
+    </h1>
+    <RouterLink
+      to="/orders/add"
+      class="text-md bg-main-third text-main-primary px-4 rounded-full hover:opacity-70 shadow-sm py-3 flex items-center"
+    >
+      New Order
+    </RouterLink>
   </div>
 </template>
