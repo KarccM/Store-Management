@@ -18,10 +18,15 @@ export default {
   addPayment(amount) {
     let payment = new Payment(amount);
     this.payments = [...this.payments, payment];
-    this.updateInvoice(amount);
+    this.updateInvoicePaymentsCost(amount);
   },
 
-  updateInvoice(payment) {
+  updateInvoicePaymentsCost(payment) {
     this.invoice.total += payment;
+  },
+
+  addItem(item) {
+    this.items = [...this.items, item];
+    this.invoice.total += item?.quatity ?? 1 * item?.price;
   },
 };
